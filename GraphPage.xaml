@@ -1,0 +1,48 @@
+﻿<Page x:Class="TeamsContactsGroupCreator.GraphPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:TeamsContactsGroupCreator"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d" 
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      Background="{DynamicResource MaterialDesignPaper}"
+      Title="GraphPage">
+
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"></BooleanToVisibilityConverter>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center">
+            <Binding Path="UserEmail"></Binding>
+            <Label.ContentStringFormat>Hello {0}</Label.ContentStringFormat>
+        </Label>
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical">
+            <TextBox Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Name="DLContactGroup" Margin="0,10,0,0" materialDesign:HintAssist.Hint="Enter Contact Group name" TextChanged="DLContactGroup_TextChanged" materialDesign:HintAssist.FloatingScale="1.2"></TextBox>
+            <TextBox Style="{DynamicResource MaterialDesignFloatingHintTextBox}" Text="{Binding DLName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="DLNameTextBox_TextChanged" Name="DLNameTextBox" Margin="0,10,0,0" materialDesign:HintAssist.Hint="Enter DL Name" materialDesign:HintAssist.FloatingScale="1.2"></TextBox>
+            <Label Name="ErrorMessage" Foreground="Red" Visibility="{Binding ErrorTextVisibility, Converter={StaticResource BoolToVis}}" >Please enter valid DL name</Label>
+            <Button x:Name="ContinueButton" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Visibility="{Binding ContinueButtonVisibility, Converter={StaticResource BoolToVis}}" Width="100" Margin="0,10,0,0" Click="ContinueButton_Click">Continue</Button>
+        </StackPanel>
+        <ListBox Margin="0,10,0,0" Name="DL_List_Box" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding DLList, Mode=OneWay}" SelectionChanged="DL_List_Box_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel Orientation="Vertical">
+                        <TextBlock Padding="5" Text="{Binding DisplayName}"></TextBlock>
+                        <TextBlock Padding="5" Text="{Binding Mail}"></TextBlock>
+                        <Separator BorderBrush="White"></Separator>
+                    </WrapPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</Page>
